@@ -18,13 +18,13 @@ How to use for entity recognition
 ---------------------------------
 ```java
 final EntityRecognition entityRecognition = TextocatFactory.getEntityRecognitionInstance("<YOUR_AUTH_TOKEN>");
-FutureCallback<AnnotatedBatch> outputCallback = // a callback for dealing with annotated documents ...
+final FutureCallback<AnnotatedBatch> outputCallback = // a callback for dealing with annotated documents ...
         FutureCallback<BatchMetadata> inputCallback = new FutureCallback<BatchMetadata>() {
             public void onSuccess(BatchMetadata batchMetadata) {
                entityRecognition.retrieve(batchMetadata, outputCallback);
             }
             public void onFailure(Throwable throwable) {}
-        }
+        };
 entityRecognition.submit(new Batch(documents), inputCallback);
 ```
 
