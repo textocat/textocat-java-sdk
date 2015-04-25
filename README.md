@@ -3,7 +3,7 @@ Official Java SDK for Textocat API
 
 Integrate Textocat API easily into your Java application
 --------------------------------------------------------
-The project features native integration with [Textocat API](http://docs.textocat.com) in Java. All calls to API are asynchronous. The SDK is built on top of Mashape's [Unirest](unirest.io), Google's [Guava](https://github.com/google/guava) and [Gson](https://github.com/google/gson).
+The project features native integration with [Textocat API](http://docs.textocat.com) in Java. All calls to API are asynchronous. The SDK is built on top of Mashape's [Unirest](http://unirest.io), Google's [Guava](https://github.com/google/guava) and [Gson](https://github.com/google/gson).
 
 Supported version of Textocat API
 ---------------------------------
