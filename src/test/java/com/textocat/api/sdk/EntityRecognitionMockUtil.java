@@ -126,7 +126,7 @@ public class EntityRecognitionMockUtil {
         doReturn("123").when(entityHttpService).queue(argThat(areTheSameDocuments()));
         doThrow(new RuntimeException("Documents cannot be empty")).when(entityHttpService).
                 queue(argThat(hasNoDocuments()));
-        doNothing().when(entityHttpService).waitUntilCompleted("123");
+        doNothing().when(entityHttpService).waitUntilCompleted("123", 1);
         when(entityHttpService.retrieve("123", null)).thenReturn(makeAnnotatedDocuments());
         when(entityHttpService.retrieve("123", "PERSON:форд")).thenReturn(makeAnnotatedDocumentForSearch());
         return entityHttpService;
