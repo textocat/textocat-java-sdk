@@ -30,7 +30,7 @@ class EntityHttpService implements TextocatParameters {
 
     public static final String REQUEST_URL = BASE_URL + "entity/";
 
-    public HttpRequest prebuild(Command command) {
+    private HttpRequest prebuild(Command command) {
         HttpRequest request = command == QUEUE ? Unirest.post(REQUEST_URL + command) : Unirest.get(REQUEST_URL + command);
         return request.queryString("auth_token", authToken)
                 .header("Content-Type", "application/json")
