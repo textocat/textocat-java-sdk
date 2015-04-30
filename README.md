@@ -7,7 +7,7 @@ The project features native integration with [Textocat API](http://docs.textocat
 
 Supported version of Textocat API
 ---------------------------------
-0.2
+0.3
 
 
 Prerequisites
