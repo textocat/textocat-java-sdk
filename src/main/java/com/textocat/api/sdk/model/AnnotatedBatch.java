@@ -1,14 +1,22 @@
 package com.textocat.api.sdk.model;
 
+import java.util.Set;
+
 /**
  * @author Nikita Zhiltsov
  */
-public class AnnotatedBatch extends BatchMetadata {
+public class AnnotatedBatch {
+    private final Set<String> batchIds;
+
     private final AnnotatedDocument[] documents;
 
-    public AnnotatedBatch(String id, BatchStatus status, AnnotatedDocument[] documents) {
-        super(id, status);
+    public AnnotatedBatch(Set<String> batchIds, AnnotatedDocument[] documents) {
+        this.batchIds = batchIds;
         this.documents = documents;
+    }
+
+    public Set<String> getBatchIds() {
+        return batchIds;
     }
 
     public AnnotatedDocument[] getDocuments() {

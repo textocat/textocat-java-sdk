@@ -1,5 +1,6 @@
 package com.textocat.api.sdk;
 
+import com.google.common.collect.ImmutableSet;
 import com.textocat.api.sdk.EntityHttpService;
 import com.textocat.api.sdk.model.Batch;
 import com.textocat.api.sdk.model.Document;
@@ -127,8 +128,8 @@ public class EntityRecognitionMockUtil {
         doThrow(new RuntimeException("Documents cannot be empty")).when(entityHttpService).
                 queue(argThat(hasNoDocuments()));
         doNothing().when(entityHttpService).waitUntilCompleted("123", 1);
-        when(entityHttpService.retrieve("123", null)).thenReturn(makeAnnotatedDocuments());
-        when(entityHttpService.retrieve("123", "PERSON:форд")).thenReturn(makeAnnotatedDocumentForSearch());
+        when(entityHttpService.retrieve(ImmutableSet.of("123"))).thenReturn(makeAnnotatedDocuments());
+        when(entityHttpService.search("PERSON:форд")).thenReturn(makeAnnotatedDocumentForSearch());
         return entityHttpService;
     }
 }

@@ -5,10 +5,14 @@ Integrate Textocat API easily into your Java application
 --------------------------------------------------------
 The project features native integration with [Textocat API](http://docs.textocat.com) in Java. All calls to API are asynchronous. The SDK is built on top of Mashape's [Unirest](http://unirest.io), Google's [Guava](https://github.com/google/guava) and [Gson](https://github.com/google/gson).
 
-Supported version of Textocat API
----------------------------------
-0.3
 
+Latest Version
+--------------
+1.0 (with support of Textocat API 0.3)
+
+Authorization token
+-------------------
+To take advantage of the SDK, you must have an authorization key (authToken). [Get](http://textocat.com/#idSubscribe) one  for free!
 
 Prerequisites
 ----------------------
@@ -21,7 +25,7 @@ final EntityRecognition entityRecognition = TextocatFactory.getEntityRecognition
 final FutureCallback<AnnotatedBatch> outputCallback = // a callback for dealing with annotated documents ...
         FutureCallback<BatchMetadata> inputCallback = new FutureCallback<BatchMetadata>() {
             public void onSuccess(BatchMetadata batchMetadata) {
-               entityRecognition.retrieve(batchMetadata, outputCallback);
+               entityRecognition.retrieve(ImmutableSet.of(batchMetadata), outputCallback);
             }
             public void onFailure(Throwable throwable) {}
         };

@@ -9,13 +9,15 @@ import com.mashape.unirest.request.HttpRequestWithBody;
 import com.textocat.api.sdk.model.Batch;
 import org.json.JSONArray;
 
+import java.util.Set;
+
 import static com.textocat.api.sdk.Command.*;
 
 /**
  * @author Nikita Zhiltsov
  */
 enum Command {
-    QUEUE, REQUEST, RETRIEVE;
+    QUEUE, REQUEST, RETRIEVE, SEARCH;
 
     public String toString() {
         return super.toString().toLowerCase();
@@ -46,10 +48,17 @@ class EntityHttpService implements TextocatParameters {
         return response.getBody().getObject().getString("batchId");
     }
 
-    public JSONArray retrieve(String batchId, String searchQuery) throws UnirestException {
-        HttpResponse<JsonNode> response = searchQuery != null ? prebuild(RETRIEVE)
-                .queryString("batch_id", batchId).queryString("filter_query", searchQuery).asJson() :
-                prebuild(RETRIEVE).queryString("batch_id", batchId).asJson();
+    public JSONArray retrieve(Set<String> batchIds) throws UnirestException {
+        HttpRequest prequery = prebuild(RETRIEVE);
+        for (String batchId : batchIds) {
+            prequery = prequery.queryString("batch_id", batchId);
+        }
+        HttpResponse<JsonNode> response = prequery.asJson();
+        return response.getBody().getObject().getJSONArray("documents");
+    }
+
+    public JSONArray search(String searchQuery) throws UnirestException {
+        HttpResponse<JsonNode> response = prebuild(SEARCH).queryString("search_query", searchQuery).asJson();
         return response.getBody().getObject().getJSONArray("documents");
     }
 
