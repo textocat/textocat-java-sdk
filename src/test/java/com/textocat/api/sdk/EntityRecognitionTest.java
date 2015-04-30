@@ -1,5 +1,6 @@
 package com.textocat.api.sdk;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.util.concurrent.FutureCallback;
 import com.textocat.api.sdk.model.*;
 import org.junit.Assert;
@@ -84,7 +85,7 @@ public class EntityRecognitionTest {
                 Assert.fail("Failed to retrieve the batch");
             }
         };
-        entityRecognition.search(new BatchMetadata("123", BatchStatus.FINISHED), null, callback);
+        entityRecognition.retrieve(ImmutableSet.of(new BatchMetadata("123", BatchStatus.FINISHED)), callback);
 
         Thread.sleep(50);
 
@@ -93,10 +94,10 @@ public class EntityRecognitionTest {
     @Test
     public void testSearch() throws Exception {
         final CallbackResult callbackResult = new CallbackResult(false);
-        final FutureCallback<AnnotatedBatch> callback = new FutureCallback<AnnotatedBatch>() {
+        final FutureCallback<SearchResult> callback = new FutureCallback<SearchResult>() {
 
-            public void onSuccess(AnnotatedBatch annotatedBatch) {
-                AnnotatedDocument[] processedDocs = annotatedBatch.getDocuments();
+            public void onSuccess(SearchResult searchResult) {
+                AnnotatedDocument[] processedDocs = searchResult.getDocuments();
                 Assert.assertEquals(1, processedDocs.length);
                 Assert.assertEquals("tag1", processedDocs[0].getTag());
                 EntityAnnotation[] entities = processedDocs[0].getEntities();
@@ -111,7 +112,7 @@ public class EntityRecognitionTest {
                 Assert.fail("Failed to retrieve the batch");
             }
         };
-        entityRecognition.search(new BatchMetadata("123", BatchStatus.FINISHED), "PERSON:форд", callback);
+        entityRecognition.search("PERSON:форд", callback);
         Thread.sleep(50);
 
         Assert.assertTrue("Failed to handle a call while retrieving", callbackResult.passed);

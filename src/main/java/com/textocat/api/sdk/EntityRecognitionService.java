@@ -5,6 +5,8 @@ import com.textocat.api.sdk.model.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 
@@ -36,23 +38,25 @@ class EntityRecognitionService implements EntityRecognition {
     }
 
     @Override
-    public void retrieve(final BatchMetadata batchMetadata, FutureCallback<AnnotatedBatch> callback) {
+    public void retrieve(final Set<BatchMetadata> batchMetadataSet, FutureCallback<AnnotatedBatch> callback) {
         ListenableFuture<AnnotatedBatch> response = service.submit(new Callable<AnnotatedBatch>() {
             public AnnotatedBatch call() throws Exception {
-                String batchId = batchMetadata.getId();
-                return convert(entityHttpService.retrieve(batchId, null), batchId);
+                Set<String> batchIds = new HashSet<String>();
+                for (BatchMetadata batch : batchMetadataSet) {
+                    String batchId = batch.getId();
+                    batchIds.add(batchId);
+                }
+                return convert(entityHttpService.retrieve(batchIds), batchIds);
             }
         });
         Futures.addCallback(response, callback);
     }
 
     @Override
-    public void search(final BatchMetadata batchMetadata, final String searchQuery,
-                       FutureCallback<AnnotatedBatch> callback) {
-        ListenableFuture<AnnotatedBatch> response = service.submit(new Callable<AnnotatedBatch>() {
-            public AnnotatedBatch call() throws Exception {
-                String batchId = batchMetadata.getId();
-                return convert(entityHttpService.retrieve(batchId, searchQuery), batchId);
+    public void search(final String searchQuery, FutureCallback<SearchResult> callback) {
+        ListenableFuture<SearchResult> response = service.submit(new Callable<SearchResult>() {
+            public SearchResult call() throws Exception {
+                return convert(entityHttpService.search(searchQuery), searchQuery);
             }
         });
         Futures.addCallback(response, callback);
@@ -69,7 +73,17 @@ class EntityRecognitionService implements EntityRecognition {
         return 1;
     }
 
-    private AnnotatedBatch convert(JSONArray documents, String batchId) {
+    private AnnotatedBatch convert(JSONArray documents, Set<String> batchIds) {
+        AnnotatedDocument[] annotatedDocuments = getAnnotatedDocuments(documents);
+        return new AnnotatedBatch(batchIds, annotatedDocuments);
+    }
+
+    private SearchResult convert(JSONArray documents, String searchQuery) {
+        AnnotatedDocument[] annotatedDocuments = getAnnotatedDocuments(documents);
+        return new SearchResult(searchQuery, annotatedDocuments);
+    }
+
+    private AnnotatedDocument[] getAnnotatedDocuments(JSONArray documents) {
         AnnotatedDocument[] annotatedDocuments = new AnnotatedDocument[documents.length()];
         for (int i = 0; i < documents.length(); i++) {
             JSONObject document = documents.getJSONObject(i);
@@ -85,6 +99,6 @@ class EntityRecognitionService implements EntityRecognition {
             annotatedDocuments[i] = new AnnotatedDocument(DocumentStatus.valueOf(document.getString("status")),
                     document.optString("tag", null), entityAnnotations);
         }
-        return new AnnotatedBatch(batchId, BatchStatus.FINISHED, annotatedDocuments);
+        return annotatedDocuments;
     }
 }

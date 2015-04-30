@@ -5,6 +5,9 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.textocat.api.sdk.model.AnnotatedBatch;
 import com.textocat.api.sdk.model.Batch;
 import com.textocat.api.sdk.model.BatchMetadata;
+import com.textocat.api.sdk.model.SearchResult;
+
+import java.util.Set;
 
 /**
  * Entity recognition in Textocat API
@@ -21,20 +24,19 @@ public interface EntityRecognition {
     void submit(Batch batch, FutureCallback<BatchMetadata> callback);
 
     /**
-     * retrieves a batch with all annotated documents
+     * retrieves a set of batches with all annotated documents
      *
-     * @param batchMetadata batch metadata
+     * @param batchMetadata  metadata of batches to retrieve
      * @param callback async callback to handle response
      */
-    void retrieve(BatchMetadata batchMetadata, FutureCallback<AnnotatedBatch> callback);
+    void retrieve(Set<BatchMetadata> batchMetadataSet, FutureCallback<AnnotatedBatch> callback);
 
     /**
-     * matches and ranks documents in a batch with respect to the search query
+     * matches and ranks the user's documents with respect to the search query
      *
-     * @param batchMetadata
      * @param searchQuery a search query
      * @param callback async callback to handle response
      * @see <a href="http://docs.textocat.com/filter-query-syntax.pdf">Textocat Search Query Syntax</a>
      */
-    void search(BatchMetadata batchMetadata, String searchQuery, FutureCallback<AnnotatedBatch> callback);
+    void search(String searchQuery, FutureCallback<SearchResult> callback);
 }
