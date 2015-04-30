@@ -28,7 +28,7 @@ class EntityRecognitionService implements EntityRecognition {
         ListenableFuture<BatchMetadata> response = service.submit(new Callable<BatchMetadata>() {
             public BatchMetadata call() throws Exception {
                 String batchId = entityHttpService.queue(batch);
-                entityHttpService.waitUntilCompleted(batchId);
+                entityHttpService.waitUntilCompleted(batchId, getAdaptiveRequestInterval(batch.getDocuments().length));
                 return new BatchMetadata(batchId, BatchStatus.FINISHED);
             }
         });
@@ -58,6 +58,17 @@ class EntityRecognitionService implements EntityRecognition {
         Futures.addCallback(response, callback);
     }
 
+    /**
+     * returns the request interval (in secs)
+     *
+     * @param batchSize
+     * @return
+     */
+    private int getAdaptiveRequestInterval(int batchSize) {
+        // TODO: plug the smart formula depending on the batch size and API throughput values here
+        return 1;
+    }
+
     private AnnotatedBatch convert(JSONArray documents, String batchId) {
         AnnotatedDocument[] annotatedDocuments = new AnnotatedDocument[documents.length()];
         for (int i = 0; i < documents.length(); i++) {
@@ -75,13 +86,5 @@ class EntityRecognitionService implements EntityRecognition {
                     document.optString("tag", null), entityAnnotations);
         }
         return new AnnotatedBatch(batchId, BatchStatus.FINISHED, annotatedDocuments);
-    }
-}
-
-enum Command {
-    QUEUE, REQUEST, RETRIEVE;
-
-    public String toString() {
-        return super.toString().toLowerCase();
     }
 }

@@ -14,15 +14,19 @@ import static com.textocat.api.sdk.Command.*;
 /**
  * @author Nikita Zhiltsov
  */
+enum Command {
+    QUEUE, REQUEST, RETRIEVE;
+
+    public String toString() {
+        return super.toString().toLowerCase();
+    }
+}
+
 class EntityHttpService implements TextocatParameters {
     /**
      * auth token
      */
     private final String authToken;
-    /**
-     * interval between requests for batch status (in sec)
-     */
-    private final int requestInterval = 1;
 
     public EntityHttpService(String authToken) {
         this.authToken = authToken;
@@ -30,7 +34,7 @@ class EntityHttpService implements TextocatParameters {
 
     public static final String REQUEST_URL = BASE_URL + "entity/";
 
-    public HttpRequest prebuild(Command command) {
+    private HttpRequest prebuild(Command command) {
         HttpRequest request = command == QUEUE ? Unirest.post(REQUEST_URL + command) : Unirest.get(REQUEST_URL + command);
         return request.queryString("auth_token", authToken)
                 .header("Content-Type", "application/json")
@@ -44,12 +48,17 @@ class EntityHttpService implements TextocatParameters {
 
     public JSONArray retrieve(String batchId, String searchQuery) throws UnirestException {
         HttpResponse<JsonNode> response = searchQuery != null ? prebuild(RETRIEVE)
-                        .queryString("batch_id", batchId).queryString("filter_query", searchQuery).asJson() :
-                        prebuild(RETRIEVE).queryString("batch_id", batchId).asJson();
+                .queryString("batch_id", batchId).queryString("filter_query", searchQuery).asJson() :
+                prebuild(RETRIEVE).queryString("batch_id", batchId).asJson();
         return response.getBody().getObject().getJSONArray("documents");
     }
 
-    public void waitUntilCompleted(String batchId) throws Exception {
+    /**
+     * @param batchId         batch id
+     * @param requestInterval time between HTTP requests (in sec)
+     * @throws Exception
+     */
+    public void waitUntilCompleted(String batchId, int requestInterval) throws Exception {
         while (true) {
             Thread.sleep(requestInterval * 1000);
             HttpResponse<JsonNode> response = prebuild(REQUEST).queryString("batch_id", batchId).asJson();
