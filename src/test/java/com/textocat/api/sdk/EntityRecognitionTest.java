@@ -85,7 +85,7 @@ public class EntityRecognitionTest {
                 Assert.fail("Failed to retrieve the batch");
             }
         };
-        entityRecognition.retrieve(ImmutableSet.of(new BatchMetadata("123", BatchStatus.FINISHED)), callback);
+        entityRecognition.retrieve(callback, new BatchMetadata("123", BatchStatus.FINISHED));
 
         Thread.sleep(50);
 

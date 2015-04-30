@@ -38,7 +38,7 @@ class EntityRecognitionService implements EntityRecognition {
     }
 
     @Override
-    public void retrieve(final Set<BatchMetadata> batchMetadataSet, FutureCallback<AnnotatedBatch> callback) {
+    public void retrieve(FutureCallback<AnnotatedBatch> callback, final BatchMetadata... batchMetadataSet) {
         ListenableFuture<AnnotatedBatch> response = service.submit(new Callable<AnnotatedBatch>() {
             public AnnotatedBatch call() throws Exception {
                 Set<String> batchIds = new HashSet<String>();

@@ -29,14 +29,14 @@ public interface EntityRecognition {
      * @param batchMetadata  metadata of batches to retrieve
      * @param callback async callback to handle response
      */
-    void retrieve(Set<BatchMetadata> batchMetadataSet, FutureCallback<AnnotatedBatch> callback);
+    void retrieve(FutureCallback<AnnotatedBatch> callback, BatchMetadata... batchMetadataSet);
 
     /**
      * matches and ranks the user's documents with respect to the search query
      *
      * @param searchQuery a search query
      * @param callback async callback to handle response
-     * @see <a href="http://docs.textocat.com/filter-query-syntax.pdf">Textocat Search Query Syntax</a>
+     * @see <a href="http://docs.textocat.com/search-query-syntax.pdf">Textocat Search Query Syntax</a>
      */
     void search(String searchQuery, FutureCallback<SearchResult> callback);
 }
