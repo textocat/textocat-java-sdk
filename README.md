@@ -25,7 +25,7 @@ final EntityRecognition entityRecognition = TextocatFactory.getEntityRecognition
 final FutureCallback<AnnotatedBatch> outputCallback = // a callback for dealing with annotated documents ...
         FutureCallback<BatchMetadata> inputCallback = new FutureCallback<BatchMetadata>() {
             public void onSuccess(BatchMetadata batchMetadata) {
-               entityRecognition.retrieve(ImmutableSet.of(batchMetadata), outputCallback);
+               entityRecognition.retrieve(outputCallback, batchMetadata);
             }
             public void onFailure(Throwable throwable) {}
         };
