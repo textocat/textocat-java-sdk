@@ -10,6 +10,12 @@ Latest Version
 --------------
 1.0 (with support of Textocat API 0.3)
 
+Features
+--------
+* entity recognition (ER)
+* full-text search (with [support of ER annotations](http://docs.textocat.com/search-query-syntax.pdf))
+* Russian language
+
 Authorization token
 -------------------
 To take advantage of the SDK, you must have an authorization key (authToken). [Get](http://textocat.com/#idSubscribe) one  for free!
