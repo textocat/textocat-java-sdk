@@ -1,5 +1,6 @@
 Official Java SDK for Textocat API
 ==================================
+[![textocat-logo](Textocat-logo-square.jpg)](http://textocat.com)
 
 Integrate Textocat API easily into your Java application
 --------------------------------------------------------
