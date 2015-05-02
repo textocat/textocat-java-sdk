@@ -9,7 +9,7 @@ The project features native integration with [Textocat API](http://docs.textocat
 
 Latest Version
 --------------
-1.0 (with support of Textocat API 0.3)
+[1.0](https://github.com/textocat/textocat-java-sdk/archive/1.0.zip) (with support of Textocat API 0.3)
 
 Features
 --------
