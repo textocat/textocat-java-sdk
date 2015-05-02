@@ -3,20 +3,16 @@ package com.textocat.api.sdk.model;
 /**
  * @author Nikita Zhiltsov
  */
-public class SearchResult {
+public class SearchResult extends RecognitionResult {
     private final String searchQuery;
-    private final AnnotatedDocument[] documents;
 
     public SearchResult(String searchQuery, AnnotatedDocument[] documents) {
+        super(documents);
         this.searchQuery = searchQuery;
-        this.documents = documents;
     }
 
     public String getSearchQuery() {
         return searchQuery;
     }
 
-    public AnnotatedDocument[] getDocuments() {
-        return documents;
-    }
 }

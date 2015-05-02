@@ -5,22 +5,16 @@ import java.util.Set;
 /**
  * @author Nikita Zhiltsov
  */
-public class AnnotatedBatch {
+public class AnnotatedBatch extends RecognitionResult {
     private final Set<String> batchIds;
 
-    private final AnnotatedDocument[] documents;
-
     public AnnotatedBatch(Set<String> batchIds, AnnotatedDocument[] documents) {
+        super(documents);
         this.batchIds = batchIds;
-        this.documents = documents;
     }
 
     public Set<String> getBatchIds() {
         return batchIds;
-    }
-
-    public AnnotatedDocument[] getDocuments() {
-        return documents;
     }
 
 }
