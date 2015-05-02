@@ -3,8 +3,9 @@
   <groupId>com.textocat.api.sdk</groupId>
   <artifactId>textocat-java-sdk</artifactId>
   <packaging>jar</packaging>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.0</version>
   <name>textocat-java-sdk</name>
+  <description>Official Java SDK for Textocat API (v. 0.3).</description>
   <scm>
     <developerConnection>scm:git:ssh://git@bitbucket.org/textocat/textocat-java-sdk.git</developerConnection>
     <tag>HEAD</tag>
