@@ -25,6 +25,26 @@ Prerequisites
 ----------------------
 * Java 1.7+
 
+Installation
+------------
+Add the following entries to Maven pom.xml:
+
+```xml
+<repository>
+        <id>Textocat Artifactory</id>
+        <name>Textocat Artifactory-releases</name>
+        <url>http://corp.textocat.com/artifactory/oss-libs-releases-local</url>
+</repository>
+```
+
+```xml
+<dependency>
+  <groupId>com.textocat.api.sdk</groupId>
+  <artifactId>textocat-java-sdk</artifactId>
+  <version>1.0</version>
+</dependency>
+```
+
 How to use for entity recognition
 ---------------------------------
 ```java
